@@ -6,6 +6,8 @@ interface WaroengDao {
 
     @Query("SELECT * FROM waitress")
     fun selectAllWaitress(): List<Waitress>
+    @Query("SELECT * FROM waitress WHERE username = :username AND password = :password")
+    fun selectWaitress(username: String, password: String) :Waitress?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMenu(vararg menu: Menu)

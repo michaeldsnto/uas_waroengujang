@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.uas_waroengujang.R
 import com.example.uas_waroengujang.model.Waitress
 import com.example.uas_waroengujang.viewmodel.LoginViewModel
+import com.example.uas_waroengujang.viewmodel.WaitressViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel:LoginViewModel
+    private lateinit var  waitressModel: WaitressViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -21,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         viewModel.login()
+        waitressModel = ViewModelProvider(this).get(WaitressViewModel::class.java)
 
         btnSignIn.setOnClickListener {
             val username = txtUsername.text.toString()
@@ -31,12 +34,11 @@ class LoginActivity : AppCompatActivity() {
             if (listUser != null) {
                 var isUserFound = false
                 for (user in listUser) {
+                    waitressModel.addWaitress(Waitress(id = "${user.id}", name = "${user.name}", username = "${user.username}", password = "${user.password}", workSince = "${user.workSince}", photoUrl = "${user.photoUrl}"))
                     if (user.username == username && user.password == password) {
                         isUserFound = true
                         val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("waitressName", user.name)
-                        intent.putExtra("waitressWork", user.workSince)
-                        intent.putExtra("waitressPhoto", user.photoUrl)
+                        intent.putExtra("waitressid", user.id)
                         startActivity(intent)
                         finish()
                     }

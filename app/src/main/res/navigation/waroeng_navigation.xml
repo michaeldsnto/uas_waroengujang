@@ -2,9 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/waroen_navigation"
+    android:id="@+id/waroeng_navigation"
     app:startDestination="@id/itemHome">
-    <activity
+    <fragment
         android:id="@+id/itemHome"
-        android:label="Waroeng Ujang" />
+        android:name="com.example.uas_waroengujang.view.HomeFragment"
+        android:label="Waroeng Ujang"
+        tools:layout="@layout/fragment_home">
+    </fragment>
 </navigation>

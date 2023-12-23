@@ -2,6 +2,7 @@ package com.example.uas_waroengujang.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -23,12 +24,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         waitressModel = ViewModelProvider(this).get(WaitressViewModel::class.java)
-        val waitressName = intent.getStringExtra("waitressName")
-        val waitressWork = intent.getStringExtra("waitressWork")
-        val waitressPhoto = intent.getStringExtra("waitressPhoto")
-        waitressModel.setWaitressName(waitressName.toString())
-        waitressModel.setWaitressWork(waitressWork.toString())
-        waitressModel.setWaitressPhoto(waitressPhoto.toString())
+
+        val waitressId = intent.getStringExtra("waitressid")
+        Log.d("WaitressId", waitressId.toString())
+        waitressId?.let {
+            waitressModel.setWaitressId(waitressId)
+        }
 
         drawerLayout = findViewById(R.id.drawerLayout)
         navController = (supportFragmentManager.findFragmentById

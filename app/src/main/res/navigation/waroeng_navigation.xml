@@ -9,5 +9,32 @@
         android:name="com.example.uas_waroengujang.view.HomeFragment"
         android:label="Waroeng Ujang"
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/actionMenuFragment"
+            app:destination="@id/itemMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemMenu"
+        android:name="com.example.uas_waroengujang.view.MenuFragment"
+        android:label="Menu"
+        tools:layout="@layout/fragment_menu">
+        <argument
+            android:name="nomorMeja"
+            app:argType="string" />
+        <action
+            android:id="@+id/actionChange"
+            app:destination="@id/itemHome" />
+        <action
+            android:id="@+id/actionMenuDetail"
+            app:destination="@id/itemMenuDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemMenuDetail"
+        android:name="com.example.uas_waroengujang.view.MenuDetailFragment"
+        android:label="Menu"
+        tools:layout="@layout/fragment_menu_detail">
+        <argument
+            android:name="menuId"
+            app:argType="integer" />
     </fragment>
 </navigation>

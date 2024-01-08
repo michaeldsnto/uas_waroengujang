@@ -13,7 +13,7 @@ interface WaroengDao {
     fun selectWaitress(id: String) :Waitress?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMenu(vararg menu: Menu)
+    fun insertMenu(menus: List<Menu>)
 
     @Query("SELECT * FROM menu")
     fun selectAllMenu(): List<Menu>

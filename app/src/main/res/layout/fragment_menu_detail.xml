@@ -1,14 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.MenuDetailFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable
+            name="menu"
+            type="com.example.uas_waroengujang.model.Menu" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".view.MenuDetailFragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/photoDetail"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                app:imageUrl="@{menu.photoUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtNamaDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{menu.nama}"
+                app:layout_constraintStart_toStartOf="@+id/photoDetail"
+                app:layout_constraintTop_toBottomOf="@+id/photoDetail" />
+
+            <TextView
+                android:id="@+id/txtDeskripsi"
+                android:layout_width="337dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="8dp"
+                android:text="@{menu.deskripsi}"
+                app:layout_constraintEnd_toEndOf="@+id/photoDetail"
+                app:layout_constraintStart_toStartOf="@+id/txtNamaDetail"
+                app:layout_constraintTop_toBottomOf="@+id/txtNamaDetail" />
+
+            <TextView
+                android:id="@+id/txtHargaDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text='@{"IDR " + String.valueOf(menu.harga)}'
+                android:textSize="32dp"
+                app:layout_constraintStart_toStartOf="@+id/txtDeskripsi"
+                app:layout_constraintTop_toBottomOf="@+id/txtDeskripsi" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRICE BEFORE TAX"
+                app:layout_constraintStart_toStartOf="@+id/txtHargaDetail"
+                app:layout_constraintTop_toBottomOf="@+id/txtHargaDetail" />
+
+            <Button
+                android:id="@+id/btnTambah"
+                android:layout_width="48dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                app:icon="@drawable/ic_baseline_add_circle_outline_24"
+                app:iconGravity="textStart"
+                app:iconSize="35dp"
+                app:iconTint="#000000"
+                app:layout_constraintEnd_toEndOf="@+id/txtDeskripsi"
+                app:layout_constraintTop_toBottomOf="@+id/txtDeskripsi"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/btnKurang"
+                android:layout_width="48dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                app:icon="@drawable/ic_baseline_remove_circle_outline_24"
+                app:iconGravity="textStart"
+                app:iconSize="35dp"
+                app:iconTint="#000000"
+                app:layout_constraintStart_toEndOf="@+id/textView6"
+                app:layout_constraintTop_toBottomOf="@+id/txtDeskripsi"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/txtJumlah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:text="1"
+                android:textColor="#000000"
+                android:textSize="34sp"
+                app:layout_constraintEnd_toStartOf="@+id/btnTambah"
+                app:layout_constraintStart_toEndOf="@+id/btnKurang"
+                app:layout_constraintTop_toBottomOf="@+id/txtDeskripsi" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="ADD"
+                app:layout_constraintEnd_toEndOf="@+id/btnTambah"
+                app:layout_constraintTop_toBottomOf="@+id/btnTambah" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

@@ -35,6 +35,6 @@
         tools:layout="@layout/fragment_menu_detail">
         <argument
             android:name="menuId"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 </navigation>

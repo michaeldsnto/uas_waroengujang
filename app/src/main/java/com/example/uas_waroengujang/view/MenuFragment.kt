@@ -1,6 +1,6 @@
 package com.example.uas_waroengujang.view
 
-import MenuViewModel
+import com.example.uas_waroengujang.viewmodel.MenuViewModel
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.uas_waroengujang.R
@@ -25,7 +24,7 @@ import com.example.uas_waroengujang.viewmodel.HomeViewModel
 
 
 class MenuFragment : Fragment() {
-    private lateinit var viewModel:MenuViewModel
+    private lateinit var viewModel: MenuViewModel
     private lateinit var homeViewModel: HomeViewModel
     private val menuListAdapter = MenuAdapter(arrayListOf())
     private lateinit var dataBinding:FragmentMenuBinding
@@ -41,7 +40,6 @@ class MenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
         viewModel.fetchMenuDataFromJson()
-        Log.d("MenuViewModel", "Menu: ${viewModel.fetchMenuDataFromJson()} ")
         val recView = view.findViewById<RecyclerView>(R.id.recViewMenu)
         recView?.layoutManager = GridLayoutManager(requireContext(), 2)
         recView?.adapter = menuListAdapter

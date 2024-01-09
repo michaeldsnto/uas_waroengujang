@@ -38,14 +38,14 @@ class MenuAdapter(val menuList: ArrayList<Menu>) : RecyclerView.Adapter<MenuAdap
         notifyDataSetChanged()
     }
 
-    override fun onMenuDetailClick(v: View) {
-        val uuid = v.tag.toString().toInt()
-        val action = MenuFragmentDirections.actionMenuDetail(uuid)
+    override fun onChangeClick(v: View) {
+        val action = MenuFragmentDirections.actionChange()
         Navigation.findNavController(v).navigate(action)
     }
 
-    override fun onChangeClick(v: View) {
-        val action = MenuFragmentDirections.actionChange()
+    override fun onMenuDetailClick(menu: Menu, v: View) {
+        val menuId = menu.id
+        val action = MenuFragmentDirections.actionMenuDetail(menuId)
         Navigation.findNavController(v).navigate(action)
     }
 

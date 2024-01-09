@@ -18,6 +18,9 @@ interface WaroengDao {
     @Query("SELECT * FROM menu")
     fun selectAllMenu(): List<Menu>
 
+    @Query("SELECT * FROM menu WHERE id = :id")
+    fun selectMenuById(id: String) :Menu
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCart(vararg cart: Cart)
 

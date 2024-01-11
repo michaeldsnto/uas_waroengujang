@@ -34,9 +34,7 @@ class WaitressViewModel(application: Application): AndroidViewModel(application)
     fun fetch(id: String) {
         launch {
             val db = buildDb(getApplication())
-
             val waitress = db.waroengDao().selectWaitress(id)
-
             waitress?.let {
                 waitressLD.postValue(waitress)
             }

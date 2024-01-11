@@ -12,6 +12,9 @@
         <action
             android:id="@+id/actionMenuFragment"
             app:destination="@id/itemMenu" />
+        <action
+            android:id="@+id/actionHomeAccount"
+            app:destination="@id/itemAccount" />
     </fragment>
     <fragment
         android:id="@+id/itemMenu"
@@ -48,5 +51,14 @@
         <action
             android:id="@+id/actionOrdersFragment"
             app:destination="@id/itemOrders" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemAccount"
+        android:name="com.example.uas_waroengujang.view.AccountFragment"
+        android:label="Account"
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/actionAccountHome"
+            app:destination="@id/itemHome" />
     </fragment>
 </navigation>

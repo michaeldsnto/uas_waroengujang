@@ -1,6 +1,7 @@
 package com.example.uas_waroengujang.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +19,15 @@ class WaitressViewModel(application: Application): AndroidViewModel(application)
     private val waitressId = MutableLiveData<String>()
     val waitressLD = MutableLiveData<Waitress?>()
 
+    fun saveUserData(username: String, password: String) {
+        val sharedPreferences = getApplication<Application>().getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        sharedPreferences.edit().apply {
+            putString("username", username)
+            putString("password", password)
+            apply()
+        }
+    }
+
     fun getWaitressId(): LiveData<String> {
         return waitressId
     }
@@ -25,7 +35,7 @@ class WaitressViewModel(application: Application): AndroidViewModel(application)
     fun setWaitressId(id: String) {
         waitressId.value = id
     }
-    fun addWaitress(waitress: Waitress){
+    fun addWaitress(waitress: Waitress) {
         launch {
             val db = buildDb(getApplication())
             db.waroengDao().insertWaitress(waitress)

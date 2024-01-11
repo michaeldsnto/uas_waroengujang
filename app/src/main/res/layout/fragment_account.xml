@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="waitress"
+            type="com.example.uas_waroengujang.model.Waitress" />
     </data>
 
     <FrameLayout
@@ -24,13 +26,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
+                android:src="@{waitress.photoUrl}" />
 
             <TextView
                 android:id="@+id/txtNamaAkun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name"
+                android:text="@{waitress.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/photoAkun" />
@@ -39,7 +41,7 @@
                 android:id="@+id/txtWork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="work"
+                android:text="@{waitress.workSince}"
                 app:layout_constraintEnd_toEndOf="@+id/txtNamaAkun"
                 app:layout_constraintStart_toStartOf="@+id/txtNamaAkun"
                 app:layout_constraintTop_toBottomOf="@+id/txtNamaAkun" />
@@ -121,17 +123,17 @@
                 android:layout_marginTop="8dp"
                 android:text="Change Password"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayoutRepeat"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutRepeat" />
 
             <Button
                 android:id="@+id/btnSignout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="96dp"
                 android:text="SIGN OUT"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnChangePass"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/btnChangePass"
                 app:layout_constraintTop_toBottomOf="@+id/btnChangePass" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

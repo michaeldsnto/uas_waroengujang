@@ -22,7 +22,7 @@ class MenuDetailFragment : Fragment() {
     private lateinit var viewModel: DetailViewModel
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var cartView: CartViewModel
-    private lateinit var binding: FragmentMenuDetailBinding // Replace with your actual binding class name
+    private lateinit var binding: FragmentMenuDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

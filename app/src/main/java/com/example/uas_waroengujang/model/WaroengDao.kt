@@ -27,9 +27,6 @@ interface WaroengDao {
     @Query("SELECT * FROM cart WHERE tableNumber = :tableNumber")
     fun selectCartByTableNumber(tableNumber: String): List<Cart>
 
-    @Query("DELETE FROM cart WHERE nama = :nama AND tableNumber = :tableNumber")
-    fun deleteCartByNama(nama: String, tableNumber: String)
-
-    @Query("UPDATE cart SET jumlah = :jumlah WHERE nama = :nama AND tableNumber = :tableNumber AND uuid = :id")
-    fun updateCart(jumlah: Int, nama: String, tableNumber: String, id :Int)
+    @Query("UPDATE cart SET jumlah = :newJumlah WHERE uuid = :id")
+    fun updateCartJumlah(id: Int, newJumlah: Int)
 }

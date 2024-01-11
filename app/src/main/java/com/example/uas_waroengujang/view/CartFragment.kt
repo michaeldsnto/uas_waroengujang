@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,8 +33,9 @@ import com.example.uas_waroengujang.viewmodel.HomeViewModel
 class CartFragment : Fragment() {
     private lateinit var viewModel: CartViewModel
     private lateinit var homeViewModel: HomeViewModel
-    private val cartListAdapter = CartAdapter(arrayListOf())
-    private lateinit var dataBinding:FragmentCartBinding
+    private lateinit var cartListAdapter: CartAdapter
+    private lateinit var dataBinding: FragmentCartBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,29 +48,22 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        cartListAdapter = CartAdapter(arrayListOf(), homeViewModel, viewModel)
+
         val recView = view.findViewById<RecyclerView>(R.id.recViewCart)
         recView?.layoutManager = LinearLayoutManager(context)
         recView?.adapter = cartListAdapter
-
-//        val swipe = view.findViewById<SwipeRefreshLayout>(R.id.refreshLayout)
-//
-//        swipe.setOnRefreshListener {
-//            viewModel.fetchMenuFromDatabase()
-//            swipe.isRefreshing = false
-//
-//        }
 
         observeViewModel()
         val txtTable = view.findViewById<TextView>(R.id.txtTableNum)
         val tableNumber = homeViewModel.getTableNumber().value.toString()
         viewModel.fetchMenuFromDatabase(tableNumber)
         Log.d("Table Number", homeViewModel.getTableNumber().value.toString())
-        homeViewModel.getTableNumber().observe(viewLifecycleOwner, Observer{ tableNumber ->
+        homeViewModel.getTableNumber().observe(viewLifecycleOwner, Observer { tableNumber ->
             if (!tableNumber.isNullOrBlank()) {
                 txtTable.text = "Table Number $tableNumber"
             }
         })
-
     }
     fun observeViewModel() {
         viewModel.cartLD.observe(viewLifecycleOwner, Observer {

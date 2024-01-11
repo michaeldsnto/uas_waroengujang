@@ -1,19 +1,14 @@
 package com.example.uas_waroengujang.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.uas_waroengujang.databinding.CartItemBinding
 import com.example.uas_waroengujang.model.Cart
 import com.example.uas_waroengujang.viewmodel.CartViewModel
+import com.example.uas_waroengujang.viewmodel.HomeViewModel
 
-import com.squareup.picasso.Picasso
-
-class CartAdapter(val cartList: ArrayList<Cart>) : RecyclerView.Adapter<CartAdapter.CartViewHolder>(), CartItemListener, HomeListener {
+class CartAdapter(val cartList: ArrayList<Cart>, private val homeViewModel: HomeViewModel, private val viewModel: CartViewModel) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     class CartViewHolder(var view: CartItemBinding) : RecyclerView.ViewHolder(view.root) {
 
     }
@@ -27,7 +22,56 @@ class CartAdapter(val cartList: ArrayList<Cart>) : RecyclerView.Adapter<CartAdap
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         holder.view.cartData = cartList[position]
-        holder.view.listener = this
+        holder.view.btnTambah.setOnClickListener {
+            updateQuantity(1, holder.view, position)
+        }
+
+        holder.view.btnKurang.setOnClickListener {
+            updateQuantity(-1, holder.view, position)
+        }
+
+//        holder.view.btnAdd.setOnClickListener {
+//            val tableNumber = homeViewModel.getTableNumber().value
+//
+//            if (!tableNumber.isNullOrBlank()) {
+//                cartView.addMenuCart(
+//                    Cart(
+//                        menu.nama,
+//                        holder.view.txtJumlah.text.toString().toInt(),
+//                        menu.harga,
+//                        menu.photoUrl,
+//                        tableNumber
+//                    )
+//                )
+//                Toast.makeText(requireContext(), "Ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
+//                val action = MenuDetailFragmentDirections.actionMenuCart()
+//                Navigation.findNavController(it).navigate(action)
+//            } else {
+//                // Handle the case where the table number is null or blank
+//                Toast.makeText(requireContext(), "Table number is not set", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+    }
+    private fun updateQuantity(change: Int, binding: CartItemBinding, position: Int) {
+        val currentQuantity = binding.txtQuantity.text.toString().toInt()
+        val newQuantity = currentQuantity + change
+
+        if (newQuantity >= 0) {
+            val harga = binding.cartData?.harga ?: 0
+            val totalHarga = harga * newQuantity
+
+            binding.txtQuantity.setText(newQuantity.toString())
+            binding.txtHarga.text = "IDR $totalHarga"
+
+            // Update quantity in the database
+            val tableNumber = homeViewModel.getTableNumber().value.toString()
+            val menu = binding.cartData
+            val cartId = cartList[position].uuid
+
+            if (!tableNumber.isBlank() && menu != null && cartId != null) {
+                viewModel.updateCartJumlah(cartId, newQuantity, tableNumber)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -38,17 +82,5 @@ class CartAdapter(val cartList: ArrayList<Cart>) : RecyclerView.Adapter<CartAdap
         cartList.clear()
         cartList.addAll(newCartList)
         notifyDataSetChanged()
-    }
-
-    override fun onChangeClick(v: View) {
-        val action = MenuFragmentDirections.actionChange()
-        Navigation.findNavController(v).navigate(action)
-    }
-
-    override fun onTambahClick(cart: Cart) {
-
-    }
-
-    override fun onKurangClick(cart: Cart) {
     }
 }

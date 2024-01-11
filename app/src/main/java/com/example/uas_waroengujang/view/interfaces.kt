@@ -16,8 +16,4 @@ interface MenuDetailListener {
 interface HomeListener {
     fun onChangeClick(v: View)
 }
-interface CartItemListener {
-    fun onTambahClick(cart: Cart)
-    fun onKurangClick(cart: Cart)
-}
 

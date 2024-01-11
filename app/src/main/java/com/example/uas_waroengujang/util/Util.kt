@@ -35,6 +35,12 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         database.execSQL(
             "ALTER TABLE orders ADD COLUMN total_harga INTEGER NOT NULL DEFAULT 0"
         )
+        database.execSQL(
+            "ALTER TABLE cart ADD COLUMN photoUrl STRING"
+        )
+        database.execSQL(
+            "ALTER TABLE cart ADD COLUMN tableNumber STRING"
+        )
     }
 }
 

@@ -24,12 +24,12 @@ interface WaroengDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCart(vararg cart: Cart)
 
-    @Query("SELECT * FROM cart")
-    fun selectAllCart(): List<Cart>
+    @Query("SELECT * FROM cart WHERE tableNumber = :tableNumber")
+    fun selectCartByTableNumber(tableNumber: String): List<Cart>
 
-    @Query("DELETE FROM cart WHERE nama = :nama")
-    fun deleteCartByNama(nama: String)
+    @Query("DELETE FROM cart WHERE nama = :nama AND tableNumber = :tableNumber")
+    fun deleteCartByNama(nama: String, tableNumber: String)
 
-    @Query("UPDATE cart SET jumlah = :jumlah WHERE nama = :nama")
-    fun updateCartJumlah(jumlah: Int, nama: String)
+    @Query("UPDATE cart SET jumlah = :jumlah WHERE nama = :nama AND tableNumber = :tableNumber AND uuid = :id")
+    fun updateCart(jumlah: Int, nama: String, tableNumber: String, id :Int)
 }

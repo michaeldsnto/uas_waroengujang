@@ -44,6 +44,10 @@ data class Cart(
     var jumlah: Int,
     @ColumnInfo(name = "harga")
     val harga: Int,
+    @ColumnInfo(name = "photoUrl")
+    val photoUrl: String,
+    @ColumnInfo(name = "tableNumber")
+    val tableNumber: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var uuid: Int = 0

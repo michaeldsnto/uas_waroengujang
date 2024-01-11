@@ -1,6 +1,7 @@
 package com.example.uas_waroengujang.view
 
 import android.view.View
+import com.example.uas_waroengujang.model.Cart
 import com.example.uas_waroengujang.model.Menu
 
 interface LoginClickListener {
@@ -15,3 +16,8 @@ interface MenuDetailListener {
 interface HomeListener {
     fun onChangeClick(v: View)
 }
+interface CartItemListener {
+    fun onTambahClick(cart: Cart)
+    fun onKurangClick(cart: Cart)
+}
+

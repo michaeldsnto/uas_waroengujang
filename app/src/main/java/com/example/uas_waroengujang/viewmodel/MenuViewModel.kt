@@ -28,7 +28,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application), C
 
         launch {
             try {
-                val jsonStr = URL("http://10.0.2.2:8007/menu/menu.json").readText()
+                val jsonStr = URL("http://10.0.2.2/anmp/menu.json").readText()
                 val jsonArray = JSONArray(jsonStr)
                 val menuList = mutableListOf<Menu>()
 
@@ -48,11 +48,11 @@ class MenuViewModel(application: Application) : AndroidViewModel(application), C
                 db.waroengDao().insertMenu(menuList)
 
                 loadingLD.postValue(false)
-                Log.d("com.example.uas_waroengujang.viewmodel.MenuViewModel", "Number of menu items fetched: ${menuList.size}")
+//                Log.d("com.example.uas_waroengujang.viewmodel.MenuViewModel", "Number of menu items fetched: ${menuList.size}")
             } catch (e: IOException) {
                 menuLoadErrorLD.postValue(true)
                 loadingLD.postValue(false)
-                Log.e("com.example.uas_waroengujang.viewmodel.MenuViewModel", "IOException: ${e.message}")
+//                Log.e("com.example.uas_waroengujang.viewmodel.MenuViewModel", "IOException: ${e.message}")
             }
 
         }

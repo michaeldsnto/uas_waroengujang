@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Waitress::class, Menu::class, Cart::class, Orders::class], version = 1, exportSchema = false)
+@Database(entities = [Waitress::class, Menu::class, Cart::class, Orders::class], version = 3, exportSchema = false)
 abstract class WaroengDatabase : RoomDatabase() {
 
     abstract fun waroengDao(): WaroengDao

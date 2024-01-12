@@ -1,12 +1,12 @@
 package com.example.uas_waroengujang.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,8 +14,6 @@ import com.example.uas_waroengujang.R
 import com.example.uas_waroengujang.databinding.FragmentAccountBinding
 import com.example.uas_waroengujang.viewmodel.WaitressViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : Fragment() {
     private lateinit var binding: FragmentAccountBinding
@@ -33,25 +31,37 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         waitressModel = ViewModelProvider(requireActivity()).get(WaitressViewModel::class.java)
 
-        // Set waitress sebagai variabel binding
         binding.waitress = waitressModel.waitressLD.value
 
-        // Tetapkan lifecycle owner untuk binding
         binding.lifecycleOwner = viewLifecycleOwner
 
-        // Panggil observeViewModel di sini
         observeViewModel()
+
+        binding.btnSignout.setOnClickListener {
+            clearUserSession()
+            redirectToLoginActivity()
+        }
     }
 
     private fun observeViewModel() {
         waitressModel.waitressLD.observe(viewLifecycleOwner, Observer { waitress ->
             waitress?.let {
-                // Tampilkan informasi seperti nama, work since, gambar, dan kata sandi (di sini hanya contoh)
-                txtNamaAkun.text = waitress.name
-                txtWork.text = waitress.workSince
-                // Gunakan Picasso atau metode lain untuk memuat gambar
-                Picasso.get().load(waitress.photoUrl).into(photoAkun)
+                binding.txtNamaAkun.text = waitress.name
+                binding.txtWork.text = waitress.workSince
+                Picasso.get().load(waitress.photoUrl).into(binding.photoAkun)
             }
         })
+    }
+
+    private fun clearUserSession() {
+        val sharedPreferences = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear().apply()
+    }
+
+    private fun redirectToLoginActivity() {
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

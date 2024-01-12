@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.uas_waroengujang.model.Cart
+import com.example.uas_waroengujang.model.Orders
 import com.example.uas_waroengujang.util.buildDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +18,7 @@ class CartViewModel(application: Application): AndroidViewModel(application), Co
     val cartLD = MutableLiveData<ArrayList<Cart>>()
     val menuLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
-    // MASIH SALAH INI VIEW MODELNYA
-
+    val refreshLD = MutableLiveData<Boolean>()
 
     fun fetchMenuFromDatabase(tableNumber: String) {
         loadingLD.value = true
@@ -27,11 +27,14 @@ class CartViewModel(application: Application): AndroidViewModel(application), Co
         launch {
             try {
                 val db = buildDb(getApplication())
-                cartLD.postValue(db.waroengDao().selectCartByTableNumber(tableNumber) as ArrayList<Cart>?)
+                val cartList = db.waroengDao().selectCartByTableNumber(tableNumber)
+                cartLD.postValue(cartList as ArrayList<Cart>?)
                 loadingLD.postValue(false)
+                refreshLD.postValue(true)
             } catch (e: Exception) {
                 menuLoadErrorLD.postValue(true)
                 loadingLD.postValue(false)
+                refreshLD.postValue(true)
             }
         }
     }
@@ -53,6 +56,25 @@ class CartViewModel(application: Application): AndroidViewModel(application), Co
             }
         }
     }
+
+    fun checkoutCart( tableNumber: String, orders: Orders){
+        launch {
+            val db = buildDb(getApplication())
+            db.waroengDao().insertOrders(orders)
+            db.waroengDao().deleteCartByTableNumber(tableNumber)
+        }
+    }
+    fun deleteCartItem(cartId: Int, tableNumber: String) {
+        launch {
+            try {
+                val db = buildDb(getApplication())
+                db.waroengDao().deleteCartItem(cartId)
+                fetchMenuFromDatabase(tableNumber)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO

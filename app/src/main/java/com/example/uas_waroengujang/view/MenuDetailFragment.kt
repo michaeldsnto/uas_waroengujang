@@ -86,7 +86,6 @@ class MenuDetailFragment : Fragment() {
                         val action = MenuDetailFragmentDirections.actionMenuCart()
                         Navigation.findNavController(it).navigate(action)
                     } else {
-                        // Handle the case where the table number is null or blank
                         Toast.makeText(requireContext(), "Table number is not set", Toast.LENGTH_SHORT).show()
                     }
                 }

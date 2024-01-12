@@ -16,4 +16,6 @@ interface MenuDetailListener {
 interface HomeListener {
     fun onChangeClick(v: View)
 }
-
+interface CheckoutListener {
+    fun onCheckoutClicked()
+}

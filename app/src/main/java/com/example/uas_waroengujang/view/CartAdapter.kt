@@ -30,49 +30,34 @@ class CartAdapter(val cartList: ArrayList<Cart>, private val homeViewModel: Home
             updateQuantity(-1, holder.view, position)
         }
 
-//        holder.view.btnAdd.setOnClickListener {
-//            val tableNumber = homeViewModel.getTableNumber().value
-//
-//            if (!tableNumber.isNullOrBlank()) {
-//                cartView.addMenuCart(
-//                    Cart(
-//                        menu.nama,
-//                        holder.view.txtJumlah.text.toString().toInt(),
-//                        menu.harga,
-//                        menu.photoUrl,
-//                        tableNumber
-//                    )
-//                )
-//                Toast.makeText(requireContext(), "Ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
-//                val action = MenuDetailFragmentDirections.actionMenuCart()
-//                Navigation.findNavController(it).navigate(action)
-//            } else {
-//                // Handle the case where the table number is null or blank
-//                Toast.makeText(requireContext(), "Table number is not set", Toast.LENGTH_SHORT).show()
-//            }
-//        }
     }
     private fun updateQuantity(change: Int, binding: CartItemBinding, position: Int) {
         val currentQuantity = binding.txtQuantity.text.toString().toInt()
         val newQuantity = currentQuantity + change
 
-        if (newQuantity >= 0) {
+        if (newQuantity > 0) {
             val harga = binding.cartData?.harga ?: 0
             val totalHarga = harga * newQuantity
 
             binding.txtQuantity.setText(newQuantity.toString())
             binding.txtHarga.text = "IDR $totalHarga"
 
-            // Update quantity in the database
             val tableNumber = homeViewModel.getTableNumber().value.toString()
             val menu = binding.cartData
             val cartId = cartList[position].uuid
 
-            if (!tableNumber.isBlank() && menu != null && cartId != null) {
+            if (!tableNumber.isBlank() && menu != null) {
                 viewModel.updateCartJumlah(cartId, newQuantity, tableNumber)
+            }
+        } else {
+            val cartId = cartList[position].uuid
+            val tableNumber = homeViewModel.getTableNumber().value.toString()
+            if (!tableNumber.isBlank()) {
+                viewModel.deleteCartItem(cartId, tableNumber)
             }
         }
     }
+
 
     override fun getItemCount(): Int {
         return cartList.size

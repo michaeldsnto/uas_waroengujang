@@ -1,5 +1,6 @@
 package com.example.uas_waroengujang.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -36,11 +37,14 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         waitressModel = ViewModelProvider(requireActivity()).get(WaitressViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
-        val id = waitressModel.getWaitressId().value
-        id?.let {
-            Log.d("IDCheck", "ID: $id")
-            waitressModel.fetch(id)
+        val sharedPreferences = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        val waitressId = sharedPreferences.getString("user_id", null)
+
+        waitressId?.let {
+            waitressModel.setWaitressId(it)
+            waitressModel.fetch(it)
         }
         observeViewModel()
 
@@ -48,13 +52,12 @@ class HomeFragment : Fragment() {
         btnSubmit.setOnClickListener {
             val txtTableNumber = view.findViewById<TextView>(R.id.txtTableNumber)
             var nomorTable = txtTableNumber.text.toString().toInt()
-            if (nomorTable != null && nomorTable > 0 && nomorTable <=12) {
+            if (nomorTable != null && nomorTable > 0 && nomorTable <= 12) {
                 imageView4.visibility = View.GONE
                 txtTableNumber.visibility = View.GONE
                 txtNumber.visibility = View.VISIBLE
                 btnChange.visibility = View.VISIBLE
                 btnSubmit.visibility = View.GONE
-
 
                 txtNumber.text = "Table ${txtTableNumber.text}"
                 txtInfo.text = "Currently Serving"
@@ -62,8 +65,7 @@ class HomeFragment : Fragment() {
                 val nomorMeja = txtTableNumber.text.toString()
                 homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
                 homeViewModel.setTableNumber(nomorMeja)
-            }
-            else {
+            } else {
                 Toast.makeText(requireContext(), "Nomor Meja 1-12", Toast.LENGTH_SHORT).show()
             }
 
@@ -80,7 +82,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun observeViewModel() {
+    private fun observeViewModel() {
         waitressModel.waitressLD.observe(viewLifecycleOwner, Observer { waitress ->
             waitress?.let {
                 Log.d("WaitressInfo", "Nama: ${waitress.name}, URL: ${waitress.photoUrl}")

@@ -7,7 +7,7 @@ import com.example.uas_waroengujang.model.Menu
 interface LoginClickListener {
     fun onLoginClicked(username: String, password: String)
 }
-interface  SetTableNumber {
+interface SetTableNumber {
     fun onSubmitTableNumber(number: Int)
 }
 interface MenuDetailListener {
@@ -19,3 +19,4 @@ interface HomeListener {
 interface CheckoutListener {
     fun onCheckoutClicked()
 }
+

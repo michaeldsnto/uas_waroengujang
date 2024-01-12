@@ -29,4 +29,13 @@ interface WaroengDao {
 
     @Query("UPDATE cart SET jumlah = :newJumlah WHERE uuid = :id")
     fun updateCartJumlah(id: Int, newJumlah: Int)
+
+    @Query("DELETE FROM cart WHERE tableNumber = :tableNumber")
+    fun deleteCartByTableNumber(tableNumber: String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrders(vararg orders: Orders)
+
+    @Query("DELETE FROM cart WHERE uuid = :cartId")
+    fun deleteCartItem(cartId: Int)
 }
